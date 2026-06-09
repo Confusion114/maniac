@@ -1,5 +1,5 @@
 #include <maniac/maniac.h>
-
+#include "include/maniac/accuracy.h"
 namespace maniac {
     void reset_keys() {
         auto keys = osu::Osu::get_key_subset(config.keys, 9);

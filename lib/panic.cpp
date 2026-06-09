@@ -1,4 +1,4 @@
-#include "maniac/panic.h"
+#include "include/maniac/panic.h"
 #include <random>
 
 namespace maniac {

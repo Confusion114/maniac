@@ -1,4 +1,4 @@
-#include "maniac/logging.h"  // you can create this header or just use a simple logger
+#include "include/maniac/logging.h"  // you can create this header or just use these functions
 #include <fstream>
 #include <chrono>
 #include <iomanip>

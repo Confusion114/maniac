@@ -1,23 +1,15 @@
-// --- lib/include/maniac/config.h ---
 #pragma once
 #include <string>
 #include <unordered_map>
 
 namespace maniac {
 
-// Forward declarations for our new structs
-struct AccuracyParams;
-struct RandomWalkParams;
-struct PanicParams;
-struct LoggingParams;
-struct ColumnBiasParams;
-
 struct config {
     static constexpr int VERSION = 3;
     static constexpr auto STATIC_HUMANIZATION = 0;
     static constexpr auto DYNAMIC_HUMANIZATION = 1;
 
-    // ===== Existing Settings =====
+    // Existing settings
     int tap_time = 20;
     bool mirror_mod = false;
     int compensation_offset = -15;
@@ -27,7 +19,7 @@ struct config {
     int humanization_type = DYNAMIC_HUMANIZATION;
     std::string keys = "asdfjkl;";
 
-    // ===== NEW: Accuracy Multi-Stddev Settings =====
+    // NEW: Accuracy Multi-Stddev
     struct AccuracyParams {
         double inner_stddev = 5.0;
         double mid_stddev = 10.0;
@@ -35,17 +27,17 @@ struct config {
         double outer_stddev = 20.0;
         double outer_chance = 0.10;
         double density_scaling = 0.50;
-        bool enabled = true; // Toggle for this feature
+        bool enabled = true;
     } accuracy;
 
-    // ===== NEW: Random Walk Drift Settings =====
+    // NEW: Random Walk Drift
     struct RandomWalkParams {
         bool enabled = true;
         double walk_strength = 3.0;
         double pull_strength = 0.030;
     } random_walk;
 
-    // ===== NEW: Panic Mode Settings =====
+    // NEW: Panic Mode
     struct PanicParams {
         bool enabled = false;
         double panic_window_ms = 500.0;
@@ -55,18 +47,18 @@ struct config {
         double extra_press_chance = 0.10;
     } panic;
 
-    // ===== NEW: Logging Settings =====
+    // NEW: Logging
     struct LoggingParams {
         bool enabled = false;
         std::string file_path = "maniac_log.csv";
         bool log_json = false;
     } logging;
 
-    // ===== NEW: Per-Column Bias =====
+    // NEW: Per-column bias
     std::unordered_map<int, double> column_biases;
 };
 
-// Function to load/save the new, expanded config
+// Function declarations
 bool read_from_file(config& cfg, const std::string& path = "maniac_config.json");
 bool write_to_file(const config& cfg, const std::string& path = "maniac_config.json");
 

@@ -1,4 +1,4 @@
-add_library(maniac maniac.cpp osu.cpp process.cpp humanization.cpp)
+add_library(maniac maniac.cpp osu.cpp process.cpp humanization.cpp accuracy.cpp humanizer.cpp logging.cpp panic.cpp)
 add_library(maniac::maniac ALIAS maniac)
 
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")

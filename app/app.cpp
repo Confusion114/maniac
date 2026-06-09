@@ -139,6 +139,60 @@ int main(int, char **) {
 
         ImGui::TextDisabled("maniac by fs-c, https://github.com/fs-c/maniac");
 
+        if (ImGui::BeginTabBar("ManiacControlTabs")) {
+
+    // Accuracy Tab
+    if (ImGui::BeginTabItem("Accuracy")) {
+        ImGui::Checkbox("Enable Multi-Stddev", &maniac::config.accuracy.enabled);
+        ImGui::SliderDouble("Inner Stddev", &maniac::config.accuracy.inner_stddev, 0.5, 15.0, "%.2f ms");
+        ImGui::SliderDouble("Mid Stddev", &maniac::config.accuracy.mid_stddev, 1.0, 30.0, "%.2f ms");
+        ImGui::SliderDouble("Mid Chance", &maniac::config.accuracy.mid_chance, 0.0, 0.6, "%.2f");
+        ImGui::SliderDouble("Outer Stddev", &maniac::config.accuracy.outer_stddev, 5.0, 60.0, "%.2f ms");
+        ImGui::SliderDouble("Outer Chance", &maniac::config.accuracy.outer_chance, 0.0, 0.4, "%.2f");
+        ImGui::SliderDouble("Density Scaling", &maniac::config.accuracy.density_scaling, 0.0, 1.0, "%.2f");
+        ImGui::EndTabItem();
+    }
+
+    // Drift Tab
+    if (ImGui::BeginTabItem("Drift")) {
+        ImGui::Checkbox("Enable Random Walk", &maniac::config.random_walk.enabled);
+        ImGui::SliderDouble("Walk Strength", &maniac::config.random_walk.walk_strength, 0.0, 10.0, "%.2f ms/step");
+        ImGui::SliderDouble("Pull Strength", &maniac::config.random_walk.pull_strength, 0.0, 0.2, "%.4f");
+        ImGui::EndTabItem();
+    }
+
+    // Panic Tab
+    if (ImGui::BeginTabItem("Panic")) {
+        ImGui::Checkbox("Enable Panic Mode", &maniac::config.panic.enabled);
+        ImGui::SliderDouble("Panic Window", &maniac::config.panic.panic_window_ms, 100.0, 2000.0, "%.0f ms");
+        ImGui::SliderInt("Panic Threshold", &maniac::config.panic.panic_threshold_notes, 3, 30);
+        ImGui::SliderDouble("Panic Chance", &maniac::config.panic.panic_chance, 0.0, 1.0, "%.2f");
+        ImGui::SliderDouble("Miss Chance", &maniac::config.panic.miss_chance, 0.0, 0.8, "%.2f");
+        ImGui::SliderDouble("Extra Press Chance", &maniac::config.panic.extra_press_chance, 0.0, 0.5, "%.2f");
+        ImGui::EndTabItem();
+    }
+
+    // Column Bias Tab
+    if (ImGui::BeginTabItem("Column Bias")) {
+        int num_cols = maniac::config.keys.length();
+        for (int i = 0; i < num_cols; ++i) {
+            ImGui::SliderDouble(("Col " + std::to_string(i+1)).c_str(),
+                                &maniac::config.column_biases[i], -10.0, 10.0, "%.2f ms");
+        }
+        ImGui::EndTabItem();
+    }
+
+    // Logging Tab
+    if (ImGui::BeginTabItem("Logging")) {
+        ImGui::Checkbox("Enable Logging", &maniac::config.logging.enabled);
+        ImGui::Checkbox("Log in JSON format", &maniac::config.logging.log_json);
+        ImGui::InputText("File Path", &maniac::config.logging.file_path);
+        ImGui::EndTabItem();
+    }
+
+    ImGui::EndTabBar();
+}
+
         ImGui::End();
     });
 

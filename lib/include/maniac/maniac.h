@@ -47,4 +47,11 @@ namespace maniac {
     void humanize_dynamic(std::vector<osu::HitObject> &hit_objects, int modifier);
 
 	std::vector<Action> to_actions(std::vector<osu::HitObject> &hit_objects, int32_t min_time);
+// New timing functions
+double generate_timing_delta(const config::AccuracyParams& acc_params, const config::RandomWalkParams& rw_params);
+void init_logging(const std::string& path);
+void log_hit(double hit_time, double scheduled_time, double actual_time, double delta, int column, const std::string& note_type);
+void close_logging();
+
+
 }

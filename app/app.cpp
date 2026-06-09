@@ -186,7 +186,11 @@ int main(int, char **) {
     if (ImGui::BeginTabItem("Logging")) {
         ImGui::Checkbox("Enable Logging", &maniac::config.logging.enabled);
         ImGui::Checkbox("Log in JSON format", &maniac::config.logging.log_json);
-        ImGui::InputText("File Path", &maniac::config.logging.file_path);
+static char file_path_buffer[256] = "maniac_log.csv";
+strcpy(file_path_buffer, maniac::config.logging.file_path.c_str());
+if (ImGui::InputText("File Path", file_path_buffer, sizeof(file_path_buffer))) {
+    maniac::config.logging.file_path = file_path_buffer;
+}
         ImGui::EndTabItem();
     }
 

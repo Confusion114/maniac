@@ -1,6 +1,4 @@
-#include "maniac/maniac.h"
-#include "maniac/accuracy.h"
-#include "maniac/panic.h"
+#include "include/maniac/accuracy.h"
 #include <random>
 #include <chrono>
 #include <deque>
@@ -23,7 +21,6 @@ double generate_timing_delta(const config::AccuracyParams& acc_params, const con
     if (acc_params.enabled) {
         raw_offset = AccuracyMultiStddev::sample(rng, density, acc_params);
     } else {
-        // Fallback to simple randomization (you can keep original logic here if needed)
         std::normal_distribution<> nd(0.0, 10.0);
         raw_offset = nd(rng);
     }
@@ -37,8 +34,6 @@ double generate_timing_delta(const config::AccuracyParams& acc_params, const con
     }
 
     last_error = final_offset;
-    // Apply global compensation (can be moved outside)
-    // final_offset += config::get().compensation_offset; // you'll wire this later
     if (final_offset > 50.0) final_offset = 50.0;
     if (final_offset < -50.0) final_offset = -50.0;
     return final_offset;

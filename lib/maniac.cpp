@@ -57,18 +57,21 @@ namespace maniac {
         std::vector<Action> actions;
         actions.reserve(hit_objects.size() * 2);
 
-        for (auto &hit_object : hit_objects) {
-            if (hit_object.start_time < min_time)
-                continue;
+for (auto &hit_object : hit_objects) {
+    if (hit_object.start_time < min_time)
+        continue;
 
-            if (!hit_object.is_slider)
-                hit_object.end_time = hit_object.start_time + config.tap_time;
+    if (!hit_object.is_slider)
+        hit_object.end_time = hit_object.start_time + config.tap_time;
 
-            actions.emplace_back(keys[hit_object.column], true,
-                hit_object.start_time + config.compensation_offset);
-            actions.emplace_back(keys[hit_object.column], false,
-                hit_object.end_time + config.compensation_offset);
-        }
+    // Generate a dynamic offset for this specific note
+    double delta = generate_timing_delta(config.accuracy, config.random_walk);
+    int adjusted_start = hit_object.start_time + static_cast<int>(delta) + config.compensation_offset;
+    int adjusted_end   = hit_object.end_time   + static_cast<int>(delta) + config.compensation_offset;
+
+    actions.emplace_back(keys[hit_object.column], true, adjusted_start);
+    actions.emplace_back(keys[hit_object.column], false, adjusted_end);
+}
 
         debug("converted %d hit objects to %d actions", hit_objects.size(), actions.size());
 
